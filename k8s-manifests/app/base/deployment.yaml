@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: app-javdes
-        image: harbor.local/javdes/app-javdes:latest
+        image: 34.147.56.126:30083/javdes/app-javdes:latest
         ports:
         - containerPort: 8080
         env:

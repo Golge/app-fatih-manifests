@@ -1,6 +1,6 @@
-# App JavaDes - Vault Integration with External Secrets Operator
+# Vault Integration with External Secrets Operator
 
-This directory contains the configuration for integrating the `app-javdes` application with HashiCorp Vault using the External Secrets Operator (ESO) with AppRole authentication.
+This directory contains the configuration for integrating with HashiCorp Vault using the External Secrets Operator (ESO) with AppRole authentication.
 
 ## 🏗️ Architecture
 
@@ -17,6 +17,43 @@ This directory contains the configuration for integrating the `app-javdes` appli
 │  (Injected)     │    │  ExternalSecret │    │  Authentication │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
+
+## 📋 Setup Steps
+
+1. **Set up Vault AppRole Authentication**:
+   ```bash
+   ./setup-vault-approle.sh
+   ```
+   This script will:
+   - Create policies for dev and prod environments
+   - Setup AppRole authentication method
+   - Generate role-id and secret-id for dev and prod
+   - Store sample secrets in Vault
+   - Create Kubernetes secrets with AppRole credentials
+
+2. **Create Kubernetes Secrets with AppRole Credentials**:
+   
+   If the script above doesn't create the secrets, manually create them:
+   ```bash
+   kubectl create secret generic vault-approle-database \
+     --namespace=database \
+     --from-literal=role-id="YOUR_ROLE_ID" \
+     --from-literal=secret-id="YOUR_SECRET_ID"
+   ```
+
+3. **Deploy External Secrets Configuration**:
+   ```bash
+   ./deploy-vault-secrets.sh
+   ```
+   This script will deploy:
+   - SecretStores for all namespaces
+   - ExternalSecret resources that reference Vault secrets
+
+4. **Validate Secret Creation**:
+   ```bash
+   ./validate-secrets.sh
+   ```
+   This will check if all ExternalSecrets are working and creating the necessary Kubernetes secrets.
 
 ## 🔐 Security Model
 
