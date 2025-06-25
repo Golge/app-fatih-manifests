@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: dev
+
+resources:
+- ../../base
+- ../../../vault-secrets/dev-secretstore.yaml
+- ../../../vault-secrets/dev-app-external-secret.yaml
+
+patchesStrategicMerge:
+- deployment-patch.yaml
+
+patches:
+- target:
+    kind: Ingress
+    name: app-javdes-ingress
+  patch: |-
+    - op: replace
+      path: /spec/rules/0/host
+      value: app-javdes-dev.local
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: app-javdes-dev.local
+
+commonLabels:
+  env: dev
