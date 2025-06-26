@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bankapp-ingress
+  namespace: prod
+  labels:
+    app: bankapp
+    env: prod
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "selfsigned-ca-issuer"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - bankapp-prod.local
+    secretName: bankapp-prod-tls
+  rules:
+  - host: bankapp-prod.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bankapp-service
+            port:
+              number: 80

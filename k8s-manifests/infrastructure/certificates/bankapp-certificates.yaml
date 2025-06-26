@@ -1,0 +1,33 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bankapp-dev-tls
+  namespace: dev
+spec:
+  secretName: bankapp-dev-tls
+  issuerRef:
+    name: selfsigned-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - bankapp-dev.local
+  usages:
+    - digital signature
+    - key encipherment
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bankapp-prod-tls
+  namespace: prod
+spec:
+  secretName: bankapp-prod-tls
+  issuerRef:
+    name: selfsigned-ca-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - bankapp-prod.local
+  usages:
+    - digital signature
+    - key encipherment

@@ -20,6 +20,12 @@ patches:
     - op: replace
       path: /spec/tls/0/hosts/0
       value: bankapp-dev.local
+    - op: replace
+      path: /spec/tls/0/secretName
+      value: bankapp-dev-tls
+    - op: replace
+      path: /metadata/annotations/cert-manager.io~1cluster-issuer
+      value: selfsigned-ca-issuer
 
 commonLabels:
   env: dev
