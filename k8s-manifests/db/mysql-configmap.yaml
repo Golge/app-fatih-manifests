@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-scripts
+  namespace: database
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS bankappdb_dev;
+    CREATE DATABASE IF NOT EXISTS bankappdb_prod;
+    
+    CREATE USER IF NOT EXISTS 'bankapp_dev'@'%' IDENTIFIED BY 'dev_password_123';
+    CREATE USER IF NOT EXISTS 'bankapp_prod'@'%' IDENTIFIED BY 'prod_password_456';
+
+    GRANT ALL PRIVILEGES ON bankappdb_dev.* TO 'bankapp_dev'@'%';
+    GRANT ALL PRIVILEGES ON bankappdb_prod.* TO 'bankapp_prod'@'%';
+
+    FLUSH PRIVILEGES;

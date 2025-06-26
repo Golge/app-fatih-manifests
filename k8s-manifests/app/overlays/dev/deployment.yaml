@@ -2,10 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bankapp
-  labels:
-    app: bankapp
+  namespace: dev
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: bankapp
@@ -13,6 +12,7 @@ spec:
     metadata:
       labels:
         app: bankapp
+        env: dev
     spec:
       containers:
       - name: bankapp
@@ -35,7 +35,8 @@ spec:
             secretKeyRef:
               name: db-secret
               key: password
-        # SPRING_PROFILES_ACTIVE will be set in overlays
+        - name: SPRING_PROFILES_ACTIVE
+          value: "dev"
         resources:
           requests:
             memory: "256Mi"
@@ -43,17 +44,3 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "250m"
-        livenessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 120
-          periodSeconds: 10
-          timeoutSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /actuator/health/readiness
-            port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 5
-          timeoutSeconds: 5

@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: app-javdes-ingress
+  name: bankapp-ingress
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -10,16 +10,16 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - app-javdes.local
-    secretName: app-javdes-tls
+    - bankapp.local
+    secretName: bankapp-tls
   rules:
-  - host: app-javdes.local
+  - host: bankapp.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: app-javdes-service
+            name: bankapp-service
             port:
               number: 80

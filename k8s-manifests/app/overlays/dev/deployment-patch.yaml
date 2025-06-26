@@ -1,13 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-javdes
+  name: bankapp
 spec:
   replicas: 1
   template:
     spec:
       containers:
-      - name: app-javdes
+      - name: bankapp
+        image: 34.32.141.92:30083/javdes/bankapp:latest
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "dev"

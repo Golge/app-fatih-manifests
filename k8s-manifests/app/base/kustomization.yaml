@@ -7,4 +7,4 @@ resources:
 - ingress.yaml
 
 commonLabels:
-  app: app-javdes
+  app: bankapp

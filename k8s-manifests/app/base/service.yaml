@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: app-javdes-service
+  name: bankapp-service
 spec:
   selector:
-    app: app-javdes
+    app: bankapp
   ports:
     - protocol: TCP
       port: 80

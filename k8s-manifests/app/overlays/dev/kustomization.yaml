@@ -5,8 +5,6 @@ namespace: dev
 
 resources:
 - ../../base
-- ../../../vault-secrets/dev-secretstore.yaml
-- ../../../vault-secrets/dev-app-external-secret.yaml
 
 patchesStrategicMerge:
 - deployment-patch.yaml
@@ -14,14 +12,14 @@ patchesStrategicMerge:
 patches:
 - target:
     kind: Ingress
-    name: app-javdes-ingress
+    name: bankapp-ingress
   patch: |-
     - op: replace
       path: /spec/rules/0/host
-      value: app-javdes-dev.local
+      value: bankapp-dev.local
     - op: replace
       path: /spec/tls/0/hosts/0
-      value: app-javdes-dev.local
+      value: bankapp-dev.local
 
 commonLabels:
   env: dev
